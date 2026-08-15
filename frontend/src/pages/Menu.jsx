@@ -1,9 +1,12 @@
+import PopularCategories from "../modules/home-module/PopularCategories"
+import PopularDishes from "../modules/home-module/PopularDishes"
 
 
 const Menu = () => {
   return (
     <div>
-      menu
+      <PopularCategories/>
+       <PopularDishes/>
     </div>
   )
 }
