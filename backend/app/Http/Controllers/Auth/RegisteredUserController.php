@@ -25,7 +25,7 @@ class RegisteredUserController extends Controller
     public function store(RegisterRequest $request): JsonResponse
     {
         try {
-            $user = $this->service->registerUser($request->validated());
+            $user = $this->service->handleRegster($request->validated());
 
             event(new Registered($user));
 
@@ -38,14 +38,14 @@ class RegisteredUserController extends Controller
                     'name' => $user->name,
                     'token_type' => 'Bearer',
                     'access_token' => $token,
-                ]
+                ],
             ], 201);
         } catch (Exception $e) {
             Log::error('Error registering user: '.$e->getMessage());
 
             return response()->json([
                 'status' => false,
-                'message' => 'Something went wrong while registering the user.',
+                'message' => $e->getMessage(),
             ], 500);
         }
     }

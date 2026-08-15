@@ -6,16 +6,35 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Backend\Admin\Modules\AdminAuth\AdminAuthController;
+use App\Http\Middleware\Backend\Modules\AuthModule\IsAdmin;
+use App\Http\Middleware\Backend\Modules\AuthModule\IsUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/register', [RegisteredUserController::class, 'store'])
-    ->middleware('guest')
-    ->name('register');
+Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+    Route::post('/register', [RegisteredUserController::class, 'store'])
+        ->middleware('guest')
+        ->name('register');
 
-Route::post('/login', [AuthenticatedSessionController::class, 'store'])
-    ->middleware('guest')
-    ->name('login');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+        ->middleware('guest')
+        ->name('login');
+
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->middleware('auth:sanctum', IsUser::class)
+        ->name('logout');
+});
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::post('/login', [AdminAuthController::class, 'store'])
+        ->middleware('guest')
+        ->name('login');
+
+    Route::post('/logout', [AdminAuthController::class, 'destroy'])
+        ->middleware('auth:sanctum', IsAdmin::class)
+        ->name('logout');
+});
 
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
     ->middleware('guest')

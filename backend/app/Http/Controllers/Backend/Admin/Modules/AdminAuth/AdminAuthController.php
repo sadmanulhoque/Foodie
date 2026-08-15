@@ -1,30 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Backend\Admin\Modules\AdminAuth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class AuthenticatedSessionController extends Controller
+class AdminAuthController extends Controller
 {
-    /**
-     * Handle an incoming authentication request.
-     */
     public function store(LoginRequest $request): JsonResponse
     {
         $request->authenticate();
 
         $user = $request->user();
-
-        if ($user->role !== 'user') {
-            return response()->json([
-                'status' => false,
-                'message' => 'Access denied',
-            ], 403);
-        }
-
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
