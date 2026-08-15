@@ -4,7 +4,7 @@ namespace App\Enums\OrderModule;
 
 enum OrderStatusEnum: string
 {
-     case PENDING = 'pending';
+    case PENDING = 'pending';
     case PROCESSING = 'processing';
     case OUT_FOR_DELIVERY = 'out_for_delivery';
     case DELIVERED = 'delivered';

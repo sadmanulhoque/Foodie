@@ -4,7 +4,7 @@ namespace App\Enums\OrderModule;
 
 enum PaymentStatusEnum: string
 {
-       case PAID = 'paid';
+    case PAID = 'paid';
     case NOT_PAID = 'not_paid';
 
     public function label(): string
