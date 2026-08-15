@@ -1,25 +1,26 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Menu from './pages/Menu';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import Menu from "./pages/Menu";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Cart from "./pages/Cart";
-import Checkout from './pages/Checkout';
+import Checkout from "./pages/Checkout";
 import Layout from "./components/layouts/Layout";
+import OrderSuccess from "./pages/OrderSuccess";
 export default function App() {
-    return (
+  return (
+    <Layout>
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/menu" element={<Menu />}></Route>
+        <Route path="/cart" element={<Cart />}></Route>
+        <Route path="/checkout" element={<Checkout />}></Route>
 
-        <Layout>
-            <Routes>
-                <Route path="/" element={<Home />}></Route>
-                <Route path="/menu" element={<Menu />}></Route>
-                 <Route path="/cart" element={<Cart />}></Route>
-                  <Route path="/checkout" element={<Checkout />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/register" element={<Register />}></Route>
 
-                <Route path="/login" element={<Login />}></Route>
-                <Route path="/register" element={<Register />}></Route>
-            </Routes>
-        </Layout>
-
-    );
+         <Route path="/order-success" element={<OrderSuccess />}></Route>
+      </Routes>
+    </Layout>
+  );
 }
