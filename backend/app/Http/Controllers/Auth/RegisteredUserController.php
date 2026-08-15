@@ -8,7 +8,6 @@ use App\Services\Backend\Modules\AuthModule\AuthService;
 use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
@@ -30,15 +29,22 @@ class RegisteredUserController extends Controller
 
             event(new Registered($user));
 
-            Auth::login($user);
+            $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
+                'status' => true,
                 'message' => 'User registered successfully.',
+                'data' => [
+                    'name' => $user->name,
+                    'token_type' => 'Bearer',
+                    'access_token' => $token,
+                ]
             ], 201);
         } catch (Exception $e) {
             Log::error('Error registering user: '.$e->getMessage());
 
             return response()->json([
+                'status' => false,
                 'message' => 'Something went wrong while registering the user.',
             ], 500);
         }
